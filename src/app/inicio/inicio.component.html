@@ -1,0 +1,8 @@
+<p-tabMenu [model]="items" [(activeItem)]="activeItem"/>
+
+<div *ngIf="activeItem">
+    <ng-container [ngSwitch]="activeItem.id">
+        <app-livro *ngSwitchCase="'app-livro'"></app-livro>
+        <app-usuario *ngSwitchCase="'app-usuario'"></app-usuario>
+    </ng-container>
+</div>

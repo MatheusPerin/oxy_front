@@ -1,0 +1,91 @@
+<p-table [value]="filter" [globalFilterFields]="['titulo']" [tableStyle]="{ 'min-width': '75rem' }">
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <p-iconField iconPosition="right" class="ml-auto">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" placeholder="Título" (input)="filtrar($event)" class="custom-input" />
+            </p-iconField>
+            <p-button icon="pi pi-plus"  class="ml-2" (onClick)="incluir()" />
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Id</th>
+            <th>Titulo</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Data publicação</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{ item?.id }}</td>
+            <td>{{ item?.titulo }}</td>
+            <td>{{ item?.autor }}</td>
+            <td>{{ item?.isbn }}</td>
+            <td>{{ item?.dataPublicacao }}</td>
+            <td>{{ item?.categoria }}</td>
+            <td>
+                <p-button  
+                    icon="pi pi-pencil" 
+                    class="mr-2" 
+                    [rounded]="true" 
+                    [outlined]="true" 
+                    severity="success" 
+                    (onClick)="editar(item)" 
+                />
+
+                <p-button 
+                    icon="pi pi-trash" 
+                    severity="danger" 
+                    [rounded]="true" 
+                    [outlined]="true" 
+                    (onClick)="excluir(item)" 
+                />
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="5">Livros não encontrados.</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="Livro" [modal]="true" [(visible)]="dialog" [style]="{ width: '100%', height: '100%' }" closable="false">
+    <span class="p-text-secondary block mb-5">Informações do livro.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="id" class="font-semibold w-6rem">Id</label>
+        <input pInputText id="id" class="flex-auto" autocomplete="off" [disabled]="true" [(ngModel)]="livro.id" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="titulo" class="font-semibold w-6rem">Titulo</label>
+        <input pInputText id="titulo" class="flex-auto" autocomplete="off" [(ngModel)]="livro.titulo" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="autor" class="font-semibold w-6rem">Autor</label>
+        <input pInputText id="autor" class="flex-auto" autocomplete="off" [(ngModel)]="livro.autor" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="isbn" class="font-semibold w-6rem">ISBN</label>
+        <input pInputText id="isbn" class="flex-auto" autocomplete="off" [(ngModel)]="livro.isbn" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="data-publicacao" class="font-semibold w-6rem">Data publicação</label>
+        <p-calendar dateFormat="yy-mm-dd" id="data-publicacao" class="flex-auto" autocomplete="off" [(ngModel)]="livro.dataPublicacao" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="categoria" class="font-semibold w-6rem">Categoria</label>
+        <p-dropdown [options]="['ROMANCE', 'DRAMA', 'FICCAO', 'AVENTURA', 'ACAO', 'HORROR', 'COMEDIA']" id="categoria" class="flex-auto" autocomplete="off" [(ngModel)]="livro.categoria" />
+    </div>
+    <div class="flex justify-content-start gap-2">
+        <p-button label="Cancelar" severity="secondary" (onClick)="cancelar()" />
+        <p-button label="Salvar" (onClick)="salvar()" />
+    </div>
+</p-dialog>
+
+<p-toast></p-toast>
